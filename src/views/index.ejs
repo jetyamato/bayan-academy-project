@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inventory Management System</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100">
+  <div class="min-h-screen flex">
+    <!-- Sidebar -->
+    <aside class="w-64 bg-blue-800 text-white flex flex-col">
+      <div class="py-4 px-6 text-lg font-bold border-b border-blue-700">
+        Inventory Manager
+      </div>
+      <nav class="flex-1 py-4 px-2 space-y-2">
+        <a href="#" class="flex items-center px-4 py-2 rounded hover:bg-blue-700">
+          <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M3 3h14a1 1 0 011 1v12a1 1 0 01-1 1H3a1 1 0 01-1-1V4a1 1 0 011-1z" />
+          </svg>
+          Dashboard
+        </a>
+        <a href="#" class="flex items-center px-4 py-2 rounded hover:bg-blue-700">
+          <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M3 3h14v2H3V3zM3 7h14v2H3V7zM3 11h14v2H3v-2zM3 15h14v2H3v-2z" />
+          </svg>
+          Inventory
+        </a>
+        <a href="#" class="flex items-center px-4 py-2 rounded hover:bg-blue-700">
+          <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M10 3a7 7 0 100 14 7 7 0 000-14zm0 4a3 3 0 110 6 3 3 0 010-6z" />
+          </svg>
+          Reports
+        </a>
+        <a href="#" class="flex items-center px-4 py-2 rounded hover:bg-blue-700">
+          <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M10 3a7 7 0 100 14 7 7 0 000-14z" />
+          </svg>
+          Settings
+        </a>
+      </nav>
+      <div class="py-4 px-6 border-t border-blue-700">
+        <button class="w-full px-4 py-2 text-blue-800 bg-white rounded hover:bg-gray-200">
+          Logout
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main content -->
+    <div class="flex-1 flex flex-col">
+      <!-- Header -->
+      <header class="bg-white shadow px-6 py-4 flex items-center justify-between">
+        <h1 class="text-xl font-bold text-gray-800">Dashboard</h1>
+        <div>
+          <input type="text" placeholder="Search..."
+            class="border rounded px-3 py-2 w-64 focus:outline-none focus:ring focus:border-blue-300">
+        </div>
+      </header>
+
+      <!-- Main Dashboard Content -->
+      <main class="flex-1 p-6 bg-gray-100">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- Card 1 -->
+          <div class="bg-white shadow rounded-lg p-6">
+            <h2 class="text-lg font-semibold text-gray-800">Total Items</h2>
+            <p class="text-3xl font-bold text-blue-800 mt-4">1,234</p>
+          </div>
+          <!-- Card 2 -->
+          <div class="bg-white shadow rounded-lg p-6">
+            <h2 class="text-lg font-semibold text-gray-800">Items Sold</h2>
+            <p class="text-3xl font-bold text-green-600 mt-4">567</p>
+          </div>
+          <!-- Card 3 -->
+          <div class="bg-white shadow rounded-lg p-6">
+            <h2 class="text-lg font-semibold text-gray-800">Low Stock</h2>
+            <p class="text-3xl font-bold text-red-600 mt-4">12</p>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+</body>
+
+</html>

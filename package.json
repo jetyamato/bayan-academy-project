@@ -1,0 +1,27 @@
+{
+  "name": "bayan-academy-project",
+  "version": "1.0.0",
+  "description": "Project for Backend Web Development 101",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "dev": "nodemon src/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/jet95/bayan-academy-project.git"
+  },
+  "author": "Joseph Emmanuel Tamayo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gitlab.com/jet95/bayan-academy-project/issues"
+  },
+  "homepage": "https://gitlab.com/jet95/bayan-academy-project#readme",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "ejs": "^3.1.10",
+    "express": "^4.21.1",
+    "mongoose": "^8.8.3"
+  }
+}
