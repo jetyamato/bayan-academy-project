@@ -1,0 +1,11 @@
+<%- include('../partials/header') %>
+  <main class="flex-1 p-6 bg-gray-100">
+    <ul>
+      <% items.forEach(function(item) { %>
+        <li>
+          <%= item.name %> - <%= item.description %>
+        </li>
+        <% }); %>
+    </ul>
+  </main>
+  <%- include('../partials/footer') %>
