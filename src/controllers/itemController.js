@@ -1,4 +1,6 @@
 const Item = require("../models/Item");
+const fs = require("fs");
+const path = require("path");
 
 // Get all items
 exports.getAllItems = async (req, res) => {
@@ -41,16 +43,31 @@ exports.getItem = async (req, res) => {
 // Create a new item
 exports.createItem = async (req, res) => {
   try {
-    const newItem = await Item.create(req.body);
+    let newItem = {
+      name: req.body.itemName,
+      description: req.body.itemDescription ?? "",
+      quantity: req.body.itemQuantity,
+      price: req.body.itemPrice,
+    };
+
+    if (req.file) {
+      console.log(req.file);
+
+      newItem.image = "/img/" + req.file.filename;
+    }
+
+    await Item.create(newItem);
+
     res.status(201).json({
-      status: "success",
-      data: {
-        item: newItem,
-      },
+      // status: "success",
+      success: true,
+      //   data: {
+      //     item: newItem,
+      //   },
     });
   } catch (err) {
     res.status(400).json({
-      status: "fail",
+      success: false,
       message: err.message,
     });
   }

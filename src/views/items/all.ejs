@@ -1,11 +1,20 @@
 <%- include('../partials/header') %>
   <main class="flex-1 p-6 bg-gray-100">
-    <ul>
-      <% items.forEach(function(item) { %>
-        <li>
-          <%= item.name %> - <%= item.description %>
-        </li>
-        <% }); %>
-    </ul>
+    <div class="flex justify-end">
+      <button type="button" id="addItemButton"
+        class="rounded-full bg-violet-800 hover:bg-violet-600 p-3 font-semibold text-white">Add
+        Item</button>
+    </div>
+    <hr class="border-black border-t mt-2 mb-2">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <% if (items.length===0) { %>
+        <p>No items found</p>
+        <% } else { %>
+          <% items.forEach(function(item) { %>
+            <%- include('./card', { itemTitle: item.name, itemImage: item.image, itemDescription: item.description,
+              itemQuantity: item.quantity, itemPrice: item.price }) %>
+              <% }); %>
+                <% } %>
+    </div>
   </main>
   <%- include('../partials/footer') %>

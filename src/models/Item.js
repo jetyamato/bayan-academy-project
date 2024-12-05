@@ -5,13 +5,13 @@ const itemSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  description: {
+  image: {
     type: String,
     required: false,
   },
-  category: {
+  description: {
     type: String,
-    required: true,
+    required: false,
   },
   quantity: {
     type: Number,
