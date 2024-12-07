@@ -7,9 +7,9 @@ exports.getAllItems = async (req, res) => {
   try {
     const items = await Item.find();
     const activeLink = "items";
-    res.render("items/all", { items, activeLink });
+    return res.render("items/all", { items, activeLink });
   } catch (err) {
-    res.status(400).json({
+    return res.status(400).json({
       status: "fail",
       message: err.message,
     });
@@ -22,19 +22,17 @@ exports.getItem = async (req, res) => {
     const item = await Item.findById(req.params.id);
     if (!item) {
       return res.status(404).json({
-        status: "fail",
+        success: false,
         message: "Item not found",
       });
     }
     res.status(200).json({
-      status: "success",
-      data: {
-        item,
-      },
+      success: true,
+      item,
     });
   } catch (err) {
-    res.status(400).json({
-      status: "fail",
+    return res.status(400).json({
+      success: false,
       message: err.message,
     });
   }
@@ -58,15 +56,11 @@ exports.createItem = async (req, res) => {
 
     await Item.create(newItem);
 
-    res.status(201).json({
-      // status: "success",
+    return res.status(201).json({
       success: true,
-      //   data: {
-      //     item: newItem,
-      //   },
     });
   } catch (err) {
-    res.status(400).json({
+    return res.status(400).json({
       success: false,
       message: err.message,
     });
@@ -76,25 +70,40 @@ exports.createItem = async (req, res) => {
 // Update an item by ID
 exports.updateItem = async (req, res) => {
   try {
-    const item = await Item.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-      runValidators: true,
-    });
+    const item = await Item.findById(req.params.id);
+
     if (!item) {
       return res.status(404).json({
-        status: "fail",
+        success: false,
         message: "Item not found",
       });
     }
-    res.status(200).json({
-      status: "success",
-      data: {
-        item,
-      },
+
+    let updatedItem = {
+      name: req.body.itemName,
+      description: req.body.itemDescription ?? "",
+      quantity: req.body.itemQuantity,
+      price: req.body.itemPrice,
+    };
+
+    if (req.file) {
+      console.log(req.file);
+
+      updatedItem.image = "/img/" + req.file.filename;
+      if (item.image) {
+        fs.unlinkSync(path.join(__dirname, `../../public${item.image}`));
+      }
+    }
+
+    item.set(updatedItem);
+    await item.save();
+    
+    return res.status(200).json({
+      success: true,
     });
   } catch (err) {
-    res.status(400).json({
-      status: "fail",
+    return res.status(400).json({
+      success: false,
       message: err.message,
     });
   }
@@ -103,20 +112,27 @@ exports.updateItem = async (req, res) => {
 // Delete an item by ID
 exports.deleteItem = async (req, res) => {
   try {
-    const item = await Item.findByIdAndDelete(req.params.id);
+    const item = await Item.findById(req.params.id);
+    
     if (!item) {
       return res.status(404).json({
-        status: "fail",
+        success: false,
         message: "Item not found",
       });
     }
-    res.status(204).json({
-      status: "success",
-      data: null,
+
+    if (item.image) {
+      fs.unlinkSync(path.join(__dirname, `../../public${item.image}`));
+    }
+
+    await Item.findByIdAndDelete(req.params.id);
+
+    return res.status(200).json({
+      success: true,
     });
   } catch (err) {
-    res.status(400).json({
-      status: "fail",
+    return res.status(400).json({
+      success: false,
       message: err.message,
     });
   }
@@ -133,21 +149,20 @@ exports.softDeleteItem = async (req, res) => {
         runValidators: true,
       }
     );
+
     if (!item) {
       return res.status(404).json({
-        status: "fail",
+        success: false,
         message: "Item not found",
       });
     }
-    res.status(200).json({
-      status: "success",
-      data: {
-        item,
-      },
+    
+    return res.status(200).json({
+      success: true,
     });
   } catch (err) {
-    res.status(400).json({
-      status: "fail",
+    return res.status(400).json({
+      success: false,
       message: err.message,
     });
   }

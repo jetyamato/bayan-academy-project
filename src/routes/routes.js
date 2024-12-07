@@ -27,7 +27,7 @@ router.get("/items/add", (req, res) => {
 });
 router.post("/items", upload.single("itemImage"), itemController.createItem);
 router.get("/items/:id", itemController.getItem);
-router.put("/items/:id", itemController.updateItem);
+router.put("/items/:id", upload.single("itemImage"), itemController.updateItem);
 router.delete("/items/:id", itemController.deleteItem);
 router.patch("/items/:id/soft-delete", itemController.softDeleteItem);
 

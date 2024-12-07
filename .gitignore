@@ -21,7 +21,7 @@ coverage/
 .next/
 .nuxt/
 .svelte-kit/
-public/
+public/img/
 storybook-static/
 
 # Temporary files

@@ -1,29 +1,32 @@
-<div class="max-w-sm rounded overflow-hidden shadow-xl">
+<% const id = item.id %>
+<% const { name, description, price, quantity, image } = item %>
+
+<div class="max-w-sm rounded overflow-hidden shadow-xl transition ease-in-out duration-300 hover:scale-105">
   <div class="max-w-36 max-h-36 mx-auto mt-8">
-    <img class="w-full h-auto max-w-full max-h-full object-cover" src="<%= itemImage %>" alt="Card image">
+    <img class="w-full h-auto max-w-full max-h-full object-cover" src="<%= image %>" alt="Card image">
   </div>
   <div class="px-6 pt-8">
     <div class="font-bold text-xl mb-2">
-      <%= itemTitle %>
+      <%= name %>
     </div>
     <p class="text-gray-700 text-base">
-      <%- itemDescription ? itemDescription : "<span class='italic'>No description provided</span>" %>
+      <%- description ? description : "<span class='italic'>No description provided</span>" %>
     </p>
     <div class="mt-4 flex justify-between">
       <p class="text-base">
         <span class="font-bold">Quantity: </span>
-        <%= itemQuantity %>
+        <%= quantity %>
       </p>
       <p class="text-base">
         <span class="font-bold">Price: </span>
-        <%= "₱ " + itemPrice %>
+        <%= "₱ " + price.toFixed(2) %>
       </p>
     </div>
   </div>
   <div class="px-6 pt-4 pb-2 flex justify-end gap-2">
     <a href="#"><span
-        class="inline-block bg-violet-700 hover:bg-violet-600 rounded-full px-3 py-1 text-sm font-semibold text-white mb-2">Edit</span></a>
+        class="inline-block bg-violet-700 hover:bg-violet-600 rounded-full px-3 py-1 text-sm font-semibold text-white mb-2 editButton" data-item-id="<%= id %>">Edit</span></a>
     <a href="#"><span
-        class="inline-block bg-red-600 hover:bg-red-400 rounded-full px-3 py-1 text-sm font-semibold text-white mb-2">Delete</span></a>
+        class="inline-block bg-red-600 hover:bg-red-400 rounded-full px-3 py-1 text-sm font-semibold text-white mb-2 deleteButton" data-item-id="<%= id %>">Delete</span></a>
   </div>
 </div>

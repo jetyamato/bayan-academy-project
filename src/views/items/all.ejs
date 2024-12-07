@@ -1,20 +1,32 @@
 <%- include('../partials/header') %>
   <main class="flex-1 p-6 bg-gray-100">
-    <div class="flex justify-end">
-      <button type="button" id="addItemButton"
-        class="rounded-full bg-violet-800 hover:bg-violet-600 p-3 font-semibold text-white">Add
-        Item</button>
+    <div class="flex justify-between">
+      <div class="flex-1 justify-between items-center space-x-4">
+        <p class="inline-block text-xl font-semibold text-gray-800">Sort Items By:</p>
+        <select name="sort" id="sort" class="rounded p-2 bg-slate-300 shadow-lg">
+          <option value="name">Name</option>
+          <option value="price">Price</option>
+        </select>
+        <label for="sortOrder" class="p-2 rounded text-white font-semibold bg-green-700 hover:bg-green-600 shadow-2xl">
+          Ascending
+        </label>
+        <input type="checkbox" name="sortOrder" id="sortOrder" class="hidden" checked>
+      </div>
+      <button type="button" id="addItemButton" class="rounded-full bg-violet-800 hover:bg-violet-600 py-2 px-3 font-semibold text-white shadow-xl">
+        Add Item
+      </button>
     </div>
     <hr class="border-black border-t mt-2 mb-2">
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      <% if (items.length===0) { %>
-        <p>No items found</p>
-        <% } else { %>
-          <% items.forEach(function(item) { %>
-            <%- include('./card', { itemTitle: item.name, itemImage: item.image, itemDescription: item.description,
-              itemQuantity: item.quantity, itemPrice: item.price }) %>
-              <% }); %>
-                <% } %>
-    </div>
+    <% if (items.length === 0) { %>
+      <div class="text-center rounded border-cyan-600 bg-sky-700 w-full p-16">
+        <p class="text-4xl text-white">No items found.</p>
+      </div>
+    <% } else { %>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <% items.forEach(function(item) { %>
+          <%- include('./card', {item: item}) %>
+        <% }); %>
+      </div>
+    <% } %>
   </main>
-  <%- include('../partials/footer') %>
+<%- include('../partials/footer') %>
