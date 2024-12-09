@@ -9,6 +9,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const priceInput = document.getElementById("itemPrice");
   const sortOrderButton = document.querySelector('label[for="sortOrder"]');
   const sortOrderToggle = document.getElementById("sortOrder");
+  const sortCriterion = document.querySelector('#sort');
   let modalMode = modalOverlay.dataset.modalMode;
 
   function updateSortOrderState() {
@@ -236,5 +237,10 @@ document.addEventListener("DOMContentLoaded", function () {
     e.preventDefault();
     sortOrderToggle.checked = !sortOrderToggle.checked;
     updateSortOrderState();
+    window.location.href = `/items?sort=${sortCriterion.value}:${sortOrderToggle.checked ? "asc" : "desc"}`;
+  });
+  
+  sortCriterion.addEventListener("change", function () {
+    window.location.href = `/items?sort=${sortCriterion.value}:${sortOrderToggle.checked ? "asc" : "desc"}`;
   });
 });

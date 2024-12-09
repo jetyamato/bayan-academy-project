@@ -8,9 +8,11 @@ exports.getAllItems = async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 3;
-    const query = {};
+    const sortParam = req.query.sort || "createdAt:desc";
+    const [field, order] = sortParam.split(":");
+    const sort = { [field]: order === "desc" ? -1 : 1 };
 
-    const result = await paginateItems(page, limit, query);
+    const result = await paginateItems(page, limit, {}, sort);
     const data = {
       items: result.docs,
       pagination: {
@@ -21,6 +23,7 @@ exports.getAllItems = async (req, res) => {
         hasPrevPage: result.hasPrevPage,
       },
       activeLink: "items",
+      sortParam,
     };
 
     return res.render("items/all", {data});
@@ -65,8 +68,6 @@ exports.createItem = async (req, res) => {
     };
 
     if (req.file) {
-      console.log(req.file);
-
       newItem.image = "/img/" + req.file.filename;
     }
 
@@ -103,8 +104,6 @@ exports.updateItem = async (req, res) => {
     };
 
     if (req.file) {
-      console.log(req.file);
-
       updatedItem.image = "/img/" + req.file.filename;
       if (item.image) {
         fs.unlinkSync(path.join(__dirname, `../../public${item.image}`));
