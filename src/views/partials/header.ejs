@@ -26,7 +26,8 @@
               <% break; } %>
         </h1>
         <div>
-          <input type="text" placeholder="Search..."
-            class="border rounded px-3 py-2 w-64 focus:outline-none focus:ring focus:border-blue-300">
+          <form action="/items/search" method="POST">
+            <input type="text" name="q" placeholder="Search..." class="border rounded px-3 py-2 w-64 focus:outline-none focus:ring focus:border-blue-300">
+          </form>
         </div>
       </header>

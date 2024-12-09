@@ -31,5 +31,6 @@ router.get("/items/:id", itemController.getItem);
 router.put("/items/:id", upload.single("itemImage"), itemController.updateItem);
 router.delete("/items/:id", itemController.deleteItem);
 router.patch("/items/:id/soft-delete", itemController.softDeleteItem);
+router.post("/items/search", itemController.searchItems);
 
 module.exports = router;

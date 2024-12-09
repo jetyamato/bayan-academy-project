@@ -57,6 +57,39 @@ exports.getItem = async (req, res) => {
   }
 };
 
+// Search items by name
+exports.searchItems = async (req, res) => {
+  try {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 3;
+    const sortParam = req.query.sort || "createdAt:desc";
+    const [field, order] = sortParam.split(":");
+    const sort = { [field]: order === "desc" ? -1 : 1 };
+
+    const query = { name: { $regex: req.body.q, $options: "i" } };
+    const result = await paginateItems(page, limit, query, sort);
+    const data = {
+      items: result.docs,
+      pagination: {
+        totalDocs: result.totalDocs,
+        totalPages: result.totalPages,
+        currentPage: result.page,
+        hasNextPage: result.hasNextPage,
+        hasPrevPage: result.hasPrevPage,
+      },
+      activeLink: "items",
+      sortParam,
+    };
+
+    return res.render("items/all", {data});
+  } catch (err) {
+    return res.status(400).json({
+      status: "fail",
+      message: err.message,
+    });
+  }
+};
+
 // Create a new item
 exports.createItem = async (req, res) => {
   try {
