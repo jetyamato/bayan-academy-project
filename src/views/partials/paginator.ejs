@@ -1,0 +1,25 @@
+<% if (totalPages > 1) { %>
+  <nav aria-label="Page navigation" class="m-4">
+    <ul class="pagination flex justify-center space-x-2 inline">
+      <% if (currentPage > 1) { %>
+      <li class="page-item">
+        <a class="page-link px-3 py-1 border rounded hover:bg-gray-200" href="?page=<%= currentPage - 1 %>" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+        </a>
+      </li>
+      <% } %>
+      <% for (let i = 1; i <= totalPages; i++) { %>
+      <li class="page-item <%= currentPage === i ? 'active' : '' %>">
+        <a class="page-link px-3 py-1 border rounded <%= currentPage === i ? 'bg-blue-500 text-white' : 'hover:bg-gray-200' %>" href="?page=<%= i %>"><%= i %></a>
+      </li>
+      <% } %>
+      <% if (currentPage < totalPages) { %>
+      <li class="page-item">
+        <a class="page-link px-3 py-1 border rounded hover:bg-gray-200" href="?page=<%= currentPage + 1 %>" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+        </a>
+      </li>
+      <% } %>
+    </ul>
+  </nav>
+<% } %></li>

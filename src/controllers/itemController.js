@@ -1,13 +1,29 @@
 const Item = require("../models/Item");
+const { paginateItems } = require("../utilities/paginateItems");
 const fs = require("fs");
 const path = require("path");
 
 // Get all items
 exports.getAllItems = async (req, res) => {
   try {
-    const items = await Item.find();
-    const activeLink = "items";
-    return res.render("items/all", { items, activeLink });
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 3;
+    const query = {};
+
+    const result = await paginateItems(page, limit, query);
+    const data = {
+      items: result.docs,
+      pagination: {
+        totalDocs: result.totalDocs,
+        totalPages: result.totalPages,
+        currentPage: result.page,
+        hasNextPage: result.hasNextPage,
+        hasPrevPage: result.hasPrevPage,
+      },
+      activeLink: "items",
+    };
+
+    return res.render("items/all", {data});
   } catch (err) {
     return res.status(400).json({
       status: "fail",
@@ -97,7 +113,7 @@ exports.updateItem = async (req, res) => {
 
     item.set(updatedItem);
     await item.save();
-    
+
     return res.status(200).json({
       success: true,
     });
@@ -113,7 +129,7 @@ exports.updateItem = async (req, res) => {
 exports.deleteItem = async (req, res) => {
   try {
     const item = await Item.findById(req.params.id);
-    
+
     if (!item) {
       return res.status(404).json({
         success: false,
@@ -156,7 +172,7 @@ exports.softDeleteItem = async (req, res) => {
         message: "Item not found",
       });
     }
-    
+
     return res.status(200).json({
       success: true,
     });
