@@ -17,10 +17,11 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-router.get("/", (req, res) => {
-  const activeLink = "dashboard";
-  res.render("index", { activeLink });
-});
+// router.get("/", (req, res) => {
+//   const activeLink = "dashboard";
+//   res.render("index", { activeLink });
+// });
+router.get("/", itemController.getAllItems);
 router.get("/items", itemController.getAllItems);
 router.get("/items/add", (req, res) => {
   res.render("items/new");
