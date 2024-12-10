@@ -6,3 +6,4 @@
 - [x] Sorting: Sort items by name or price in ascending or descending order
 - [x] Search: Search for items by typing in the search box
 - [x] Authentication: Enforce basic user authentication
+- [x] View Item: View a single item

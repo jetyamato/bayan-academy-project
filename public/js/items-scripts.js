@@ -1,10 +1,13 @@
 document.addEventListener("DOMContentLoaded", function () {
   const modalOverlay = document.getElementById("modal-overlay");
+  const viewModalOverlay = document.getElementById("modal-overlay-view");
   const addItemButton = document.getElementById("addItemButton");
   const saveButton = document.getElementById("saveButton");
+  const viewButtons = document.querySelectorAll(".viewButton");
   const editButtons = document.querySelectorAll(".editButton");
   const deleteButtons = document.querySelectorAll(".deleteButton");
   const closeModalButtons = document.querySelectorAll(".closeModalButton");
+  const closeViewModalButtons = document.querySelectorAll(".closeViewModalButton");
   const logoutButton = document.getElementById("logoutButton");
   const imageFileInput = document.querySelector('input[type="file"]');
   const priceInput = document.getElementById("itemPrice");
@@ -34,6 +37,14 @@ document.addEventListener("DOMContentLoaded", function () {
     modalOverlay.querySelector('#imagePreview').src = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/wcAAwAB/LOmUR8AAAAASUVORK5CYII=';
   }
 
+  function resetViewModal() {
+    viewModalOverlay.querySelector("#viewImage").src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/wcAAwAB/LOmUR8AAAAASUVORK5CYII=";
+    viewModalOverlay.querySelector("#viewItemName").textContent = "";
+    viewModalOverlay.querySelector("#viewItemDescription").textContent = "";
+    viewModalOverlay.querySelector("#viewItemQuantity").textContent = "";
+    viewModalOverlay.querySelector("#viewItemPrice").textContent = "";
+  }
+
   Inputmask({
     alias: "currency",
     rightAlign: false,
@@ -45,6 +56,31 @@ document.addEventListener("DOMContentLoaded", function () {
     modalOverlay.classList.remove("hidden");
   });
 
+  viewButtons.forEach(function (button) {
+    button.addEventListener("click", function () {
+      fetch(`/items/${button.dataset.itemId}`, {
+        method: "GET",
+      })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success) {
+          viewModalOverlay.querySelector("#viewImage").src = data.item.image;
+          viewModalOverlay.querySelector("#viewItemName").textContent = data.item.name;
+          viewModalOverlay.querySelector("#viewItemDescription").textContent = data.item.description ?? "No description provided.";
+          viewModalOverlay.querySelector("#viewItemQuantity").textContent = data.item.quantity;
+          viewModalOverlay.querySelector("#viewItemPrice").textContent = `₱ ${data.item.price.toFixed(2)}`;
+          viewModalOverlay.classList.remove("hidden");
+        } else {
+          Swal.fire({
+            title: "Error",
+            text: data.message,
+            icon: "error",
+          });
+        }
+      });
+    });
+  });
+
   editButtons.forEach(function (button) {
     button.addEventListener("click", function () {
       fetch(`/items/${button.dataset.itemId}`, {
@@ -53,7 +89,6 @@ document.addEventListener("DOMContentLoaded", function () {
         .then((response) => response.json())
         .then((data) => {
           if (data.success) {
-            console.log(data.item);
             modalMode = "edit";
             modalOverlay.setAttribute("data-modal-mode", modalMode);
             modalOverlay.querySelector("form").reset();
@@ -146,11 +181,25 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
+  closeViewModalButtons.forEach(function (button) {
+    button.addEventListener("click", function () {
+      resetViewModal();
+      viewModalOverlay.classList.add("hidden");
+    });
+  });
+
   // Optional: Close modal when clicking outside of it
   modalOverlay.addEventListener("click", function (e) {
     if (e.target === modalOverlay) {
       resetModal();
       modalOverlay.classList.add("hidden");
+    }
+  });
+
+  viewModalOverlay.addEventListener("click", function (e) {
+    if (e.target === viewModalOverlay) {
+      resetViewModal();
+      viewModalOverlay.classList.add("hidden");
     }
   });
 
