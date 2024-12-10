@@ -3,6 +3,7 @@ const path = require("path");
 const multer = require("multer");
 const router = express.Router();
 const itemController = require("../controllers/itemController");
+const authenticateToken = require("../middleware/authenticateToken");
 
 // Set up multer storage configuration
 const storage = multer.diskStorage({
@@ -21,16 +22,16 @@ const upload = multer({ storage: storage });
 //   const activeLink = "dashboard";
 //   res.render("index", { activeLink });
 // });
-router.get("/", itemController.getAllItems);
-router.get("/items", itemController.getAllItems);
-router.get("/items/add", (req, res) => {
+router.get("/", authenticateToken, itemController.getAllItems);
+router.get("/items", authenticateToken, itemController.getAllItems);
+router.get("/items/add", authenticateToken, (req, res) => {
   res.render("items/new");
 });
-router.post("/items", upload.single("itemImage"), itemController.createItem);
-router.get("/items/:id", itemController.getItem);
-router.put("/items/:id", upload.single("itemImage"), itemController.updateItem);
-router.delete("/items/:id", itemController.deleteItem);
-router.patch("/items/:id/soft-delete", itemController.softDeleteItem);
-router.post("/items/search", itemController.searchItems);
+router.post("/items", authenticateToken, upload.single("itemImage"), itemController.createItem);
+router.get("/items/:id", authenticateToken, itemController.getItem);
+router.put("/items/:id", authenticateToken, upload.single("itemImage"), itemController.updateItem);
+router.delete("/items/:id", authenticateToken, itemController.deleteItem);
+router.patch("/items/:id/soft-delete", authenticateToken, itemController.softDeleteItem);
+router.post("/items/search", authenticateToken, itemController.searchItems);
 
 module.exports = router;

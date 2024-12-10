@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const editButtons = document.querySelectorAll(".editButton");
   const deleteButtons = document.querySelectorAll(".deleteButton");
   const closeModalButtons = document.querySelectorAll(".closeModalButton");
+  const logoutButton = document.getElementById("logoutButton");
   const imageFileInput = document.querySelector('input[type="file"]');
   const priceInput = document.getElementById("itemPrice");
   const sortOrderButton = document.querySelector('label[for="sortOrder"]');
@@ -242,5 +243,63 @@ document.addEventListener("DOMContentLoaded", function () {
   
   sortCriterion.addEventListener("change", function () {
     window.location.href = `/items?sort=${sortCriterion.value}:${sortOrderToggle.checked ? "asc" : "desc"}`;
+  });
+
+  logoutButton.addEventListener("click", function () {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You will be logged out.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, log me out!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: "Logging out...",
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+          allowEnterKey: false,
+          onBeforeOpen: () => {
+            Swal.showLoading();
+          },
+        });
+
+        fetch("/auth/logout", {
+          method: "POST",
+        })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.success) {
+            Swal.close();
+            Swal.fire({
+              title: "Logged Out",
+              text: "You have been logged out.",
+              icon: "success",
+            }).then((result) => {
+              if (result.isConfirmed) {
+                window.location.href = "/auth/login";
+              }
+            });
+          } else {
+            Swal.close();
+            Swal.fire({
+              title: "Error",
+              text: data.message,
+              icon: "error",
+            });
+          }
+        })
+        .catch((error) => {
+          Swal.close();
+          Swal.fire({
+            title: "Error",
+            text: error,
+            icon: "error",
+          });
+        });
+      }
+    });
   });
 });
