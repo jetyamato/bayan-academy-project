@@ -1,13 +1,18 @@
 <% const id = item.id %>
-<% const { name, description, price, quantity, image } = item %>
+<% const { name, description, category, price, quantity, image } = item %>
 
 <div class="max-w-sm rounded overflow-hidden shadow-xl transition ease-in-out duration-300 hover:scale-105">
   <div class="max-w-36 max-h-36 mx-auto mt-8">
     <img class="w-full h-auto max-w-full max-h-full object-cover" src="<%= image %>" alt="Card image">
   </div>
   <div class="px-6 pt-8">
-    <div class="font-bold text-xl mb-2">
-      <%= name %>
+    <div class="flex justify-between items-center">
+      <div class="font-bold text-xl mb-2">
+        <%= name %>
+      </div>
+      <div class="inline-block bg-sky-700 rounded px-2 py-1 text-sm font-semibold text-white">
+        <%= category %>
+      </div>
     </div>
     <p class="text-gray-700 text-base">
       <%- description ? description : "<span class='italic'>No description provided</span>" %>

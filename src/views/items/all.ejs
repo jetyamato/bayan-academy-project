@@ -1,19 +1,32 @@
-<% const { items, activeLink, pagination, sortParam } = data %>
+<% const { items, activeLink, pagination, sortParam, filter } = data %>
 <% const sortCriterionValue = sortParam.split(':')[0] %>
 <% const sortOrderValue = sortParam.split(':')[1] %>
+<% const filterParam = filter ? filter : "" %>
 <%- include('../partials/header', { activeLink }) %>
   <main class="flex-1 p-6 bg-gray-100">
     <div class="flex justify-between">
-      <div class="flex-1 justify-between items-center space-x-4">
-        <p class="inline-block text-xl font-semibold text-gray-800">Sort Items By:</p>
-        <select name="sort" id="sort" class="rounded p-2 bg-slate-300 shadow-lg">
-          <option value="name" <%= sortCriterionValue === "name" ? "selected" : "" %>>Name</option>
-          <option value="price" <%= sortCriterionValue === "price" ? "selected" : "" %>>Price</option>
-        </select>
-        <label for="sortOrder" class="p-2 rounded text-white font-semibold bg-green-700 hover:bg-green-600 shadow-2xl">
-          Ascending
-        </label>
-        <input type="checkbox" name="sortOrder" id="sortOrder" class="hidden" <%= sortOrderValue === "asc" ? "checked" : "" %>>
+      <div class="flex-1 flex items-center space-x-4">
+        <div>
+          <p class="inline-block text-xl font-semibold text-gray-800">Filter Items By:</p>
+          <select name="filter" id="filter" class="rounded p-2 bg-slate-300 shadow-lg">
+            <option value="all" <%= filterParam === "all" ? "selected" : "" %>>All</option>
+            <option value="electronics" <%= filterParam === "electronics" ? "selected" : "" %>>Electronics</option>
+            <option value="clothing" <%= filterParam === "clothing" ? "selected" : "" %>>Clothing</option>
+            <option value="food" <%= filterParam === "food" ? "selected" : "" %>>Food</option>
+            <option value="furniture" <%= filterParam === "furniture" ? "selected" : "" %>>Furniture</option>
+          </select>
+        </div>
+        <div>
+          <p class="inline-block text-xl font-semibold text-gray-800">Sort Items By:</p>
+          <select name="sort" id="sort" class="rounded p-2 bg-slate-300 shadow-lg">
+            <option value="name" <%= sortCriterionValue === "name" ? "selected" : "" %>>Name</option>
+            <option value="price" <%= sortCriterionValue === "price" ? "selected" : "" %>>Price</option>
+          </select>
+          <label for="sortOrder" class="p-2 rounded text-white font-semibold bg-green-700 hover:bg-green-600 shadow-2xl">
+            Ascending
+          </label>
+          <input type="checkbox" name="sortOrder" id="sortOrder" class="hidden" <%= sortOrderValue === "asc" ? "checked" : "" %>>
+        </div>
       </div>
       <button type="button" id="addItemButton" class="rounded-full bg-violet-800 hover:bg-violet-600 py-2 px-3 font-semibold text-white shadow-xl">
         Add Item

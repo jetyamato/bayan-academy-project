@@ -7,15 +7,16 @@ function authenticateToken(req, res, next) {
 
   if (!token) {
     return res.redirect('/auth/login');
+  } else {
+    jwt.verify(token, secretKey, (err, user) => {
+      if (err) {
+        return res.status(403).json({ message: 'Forbidden' });
+      }
+      req.user = user;
+      next();
+    });
   }
 
-  jwt.verify(token, secretKey, (err, user) => {
-    if (err) {
-      return res.status(403).json({ message: 'Forbidden' });
-    }
-    req.user = user;
-    next();
-  });
 }
 
 module.exports = authenticateToken;

@@ -14,6 +14,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const sortOrderButton = document.querySelector('label[for="sortOrder"]');
   const sortOrderToggle = document.getElementById("sortOrder");
   const sortCriterion = document.querySelector('#sort');
+  const filterCriterion = document.querySelector('#filter');
   let modalMode = modalOverlay.dataset.modalMode;
 
   function updateSortOrderState() {
@@ -292,6 +293,10 @@ document.addEventListener("DOMContentLoaded", function () {
   
   sortCriterion.addEventListener("change", function () {
     window.location.href = `/items?sort=${sortCriterion.value}:${sortOrderToggle.checked ? "asc" : "desc"}`;
+  });
+
+  filterCriterion.addEventListener("change", function () {
+    window.location.href = `/items?category=${filterCriterion.value}`;
   });
 
   logoutButton.addEventListener("click", function () {

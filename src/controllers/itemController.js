@@ -12,7 +12,12 @@ exports.getAllItems = async (req, res) => {
     const [field, order] = sortParam.split(":");
     const sort = { [field]: order === "desc" ? -1 : 1 };
 
-    const result = await paginateItems(page, limit, {}, sort);
+    let query = {};
+    if (req.query.category && req.query.category.toLowerCase() !== "all") {
+      query.category = { $regex: new RegExp(`^${req.query.category}$`, "i") }; // Case-insensitive match
+    }
+
+    const result = await paginateItems(page, limit, query, sort);
     const data = {
       items: result.docs,
       pagination: {
@@ -24,6 +29,7 @@ exports.getAllItems = async (req, res) => {
       },
       activeLink: "items",
       sortParam,
+      filter: query.category,
     };
 
     return res.render("items/all", {data});
